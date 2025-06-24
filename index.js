@@ -4,9 +4,8 @@ const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-app.use(cors({
-  origin: 'https://cejoji.vercel.app' // Replace with your frontend URL
-}));
+// Open CORS for all origins (for testing)
+app.use(cors());
 
 app.use(express.json());
 
