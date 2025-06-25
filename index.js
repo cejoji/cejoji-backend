@@ -1,8 +1,10 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const authRoutes = require('./routes/auth');
 require('dotenv').config();
+
+const authRoutes = require('./routes/auth');
+const bookingRoutes = require('./routes/bookings');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -16,7 +18,8 @@ mongoose.connect(process.env.MONGO_URI)
 
 app.get('/api/ping', (req, res) => res.json({ message: 'Backend is working!' }));
 app.use('/api/auth', authRoutes);
+app.use('/api/bookings', bookingRoutes);
 
 app.listen(PORT, () => {
-  console.log(`Cejoji backend with auth running on port ${PORT}`);
+  console.log(`Cejoji backend running on port ${PORT}`);
 });
