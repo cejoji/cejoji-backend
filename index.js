@@ -22,4 +22,13 @@ app.use('/api/bookings', bookingRoutes);
 
 app.listen(PORT, () => {
   console.log(`Cejoji backend running on port ${PORT}`);
+
+// ✅ Include the Duffel route
+const duffelRoutes = require('./routes/duffelRoutes');
+app.use('/', duffelRoutes); // mounts it at the root
+
+// Port
+const PORT = process.env.PORT || 4000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
