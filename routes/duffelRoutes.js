@@ -1,3 +1,4 @@
+// routes/duffelRoutes.js
 const express = require('express');
 const router = express.Router();
 const duffelClient = require('../services/duffelService');
@@ -12,10 +13,14 @@ router.post('/search-flights', async (req, res) => {
   try {
     const response = await duffelClient.post('/air/offer_requests', {
       slices: [
-        { origin, destination, departure_date: date }
+        {
+          origin,
+          destination,
+          departure_date: date,
+        },
       ],
       passengers: [{ type: 'adult' }],
-      cabin_class: 'economy'
+      cabin_class: 'economy',
     });
 
     res.json(response.data);
@@ -26,4 +31,3 @@ router.post('/search-flights', async (req, res) => {
 });
 
 module.exports = router;
-
