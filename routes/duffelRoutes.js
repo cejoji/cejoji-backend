@@ -31,3 +31,8 @@ router.post('/search-flights', async (req, res) => {
 });
 
 module.exports = router;
+
+router.get('/duffel-test', (req, res) => {
+  res.json({ message: 'Duffel routes file is loaded and responding.' });
+});
+
