@@ -25,7 +25,7 @@ app.get('/api/ping', (req, res) => res.json({ message: 'Backend is working!' }))
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/bookings', bookingRoutes);
-app.use('/api', duffelRoutes); // ✅ Mount Duffel route under /api
+app.use('/api', duffelRoutes); // Mount Duffel route under /api
 
 app.listen(PORT, () => {
   console.log(`Cejoji backend running on port ${PORT}`);
