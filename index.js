@@ -1,42 +1,52 @@
+// src/index.js (CommonJS)
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 require('dotenv').config();
 
+// 1) Create app FIRST
+const app = express();
+
+// 2) CORS config (use only once)
 const corsOptions = {
   origin: [
-    'http://localhost:5173','http://localhost:4173', 'http://localhost:5174',
+    'http://localhost:5173',
+    'http://localhost:4173',
+    'http://localhost:5174',
     'https://cejoji-frontend-base44.vercel.app',
-    'https://cejoji-frontend-prod.vercel.app' // ✅ ADD THIS
+    'https://cejoji-frontend-prod.vercel.app',
   ],
   credentials: true,
+  methods: ['GET','POST','PUT','PATCH','DELETE','OPTIONS'],
+  allowedHeaders: ['Content-Type','Authorization'],
 };
 app.use(cors(corsOptions));
 
-// Route modules
-const authRoutes = require('./routes/auth');
-const bookingRoutes = require('./routes/bookings');
-const duffelRoutes = require('./routes/duffelRoutes'); // ✅ Add this line
-
-const app = express();
-const PORT = process.env.PORT || 3001;
-
-app.use(cors());
+// 3) Body parser
 app.use(express.json());
 
-// Connect to Mongo
+// 4) Routes (ensure each file exports an Express Router, not the app)
+const authRoutes = require('./routes/auth');
+const bookingRoutes = require('./routes/bookings');
+const duffelRoutes = require('./routes/duffelRoutes');
+
+// 5) DB connect
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error('MongoDB error:', err));
 
-// Test route
-app.get('/api/ping', (req, res) => res.json({ message: 'Backend is working!' }));
+// 6) Health check
+app.get('/api/ping', (_req, res) => res.json({ message: 'Backend is working!' }));
 
-// Routes
+// 7) Mount routes
 app.use('/api/auth', authRoutes);
 app.use('/api/bookings', bookingRoutes);
-app.use('/api', duffelRoutes); // Mount Duffel route under /api
+app.use('/api', duffelRoutes); // or '/api/duffel' if you want a dedicated prefix
 
+// 8) Start server (Render uses PORT)
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Cejoji backend running on port ${PORT}`);
 });
+
+module.exports = app; // optional (tests)
