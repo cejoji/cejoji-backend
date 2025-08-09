@@ -7,7 +7,7 @@ require('dotenv').config();
 // 1) Create app FIRST
 const app = express();
 
-// 2) CORS config (use only once)
+// 2) CORS config (use only once))
 const corsOptions = {
   origin: [
     'http://localhost:5173',
