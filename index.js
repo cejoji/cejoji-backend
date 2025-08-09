@@ -7,7 +7,7 @@ require('dotenv').config();
 // 1) Create app FIRST
 const app = express();
 
-// 2) CORS config (use only once))
+// 2) CORS config (use only once)
 const corsOptions = {
   origin: [
     'http://localhost:5173',
@@ -25,13 +25,14 @@ app.use(cors(corsOptions));
 // 3) Body parser
 app.use(express.json());
 
-// 4) Routes (ensure each file exports an Express Router, not the app)
+// 4) Routes (each file must export a Router)
 const authRoutes = require('./routes/auth');
 const bookingRoutes = require('./routes/bookings');
 const duffelRoutes = require('./routes/duffelRoutes');
 
 // 5) DB connect
-mongoose.connect(process.env.MONGO_URI)
+mongoose
+  .connect(process.env.MONGO_URI)
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error('MongoDB error:', err));
 
@@ -41,12 +42,12 @@ app.get('/api/ping', (_req, res) => res.json({ message: 'Backend is working!' })
 // 7) Mount routes
 app.use('/api/auth', authRoutes);
 app.use('/api/bookings', bookingRoutes);
-app.use('/api', duffelRoutes); // or '/api/duffel' if you want a dedicated prefix
+app.use('/api', duffelRoutes); // or '/api/duffel'
 
-// 8) Start server (Render uses PORT)
+// 8) Start server (Render provides PORT)
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Cejoji backend running on port ${PORT}`);
 });
 
-module.exports = app; // optional (tests)
+module.exports = app;
