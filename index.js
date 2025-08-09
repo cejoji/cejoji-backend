@@ -3,6 +3,16 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 require('dotenv').config();
 
+const corsOptions = {
+  origin: [
+    'http://localhost:5173','http://localhost:4173', 'http://localhost:5174',
+    'https://cejoji-frontend-base44.vercel.app',
+    'https://cejoji-frontend-prod.vercel.app' // ✅ ADD THIS
+  ],
+  credentials: true,
+};
+app.use(cors(corsOptions));
+
 // Route modules
 const authRoutes = require('./routes/auth');
 const bookingRoutes = require('./routes/bookings');
